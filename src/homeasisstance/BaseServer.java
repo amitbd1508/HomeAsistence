@@ -26,9 +26,9 @@ public class BaseServer  implements WebSocketHandler {
         this.baseServer.start();
         this.sendToConsole("Server up...");
     }
-    public static void main(String[] args) {
-        new BaseServer();
-    }
+//    public static void main(String[] args) {
+//        new BaseServer();
+//    }
     @Override
     public void onOpen(WebSocketConnection webSocketConnection) throws Throwable {
         baseConnection = webSocketConnection;
