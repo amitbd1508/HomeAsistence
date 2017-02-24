@@ -7,6 +7,9 @@ import org.webbitserver.WebSocketConnection;
 import org.webbitserver.WebSocketHandler;
 
 import java.io.DataOutputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by BlackFlag on 2/21/2017.
@@ -21,10 +24,10 @@ public class BaseServer  implements WebSocketHandler {
     private boolean isFirstTime = true;
 
 
-    public BaseServer() {
+    public BaseServer() throws UnknownHostException {
         this.baseServer.add("/BaseConnection", this);
         this.baseServer.start();
-        this.sendToConsole("Server up...");
+        this.sendToConsole("Server opened  ");
     }
 //    public static void main(String[] args) {
 //        new BaseServer();
@@ -79,6 +82,7 @@ public class BaseServer  implements WebSocketHandler {
 
     @Override
     public void onMessage(WebSocketConnection webSocketConnection, byte[] bytes) throws Throwable {
+
 
     }
 

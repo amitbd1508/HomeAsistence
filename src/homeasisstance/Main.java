@@ -1,5 +1,7 @@
 package homeasisstance;
 
+import java.net.UnknownHostException;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -16,7 +18,12 @@ public class Main {
 //
 //        } while (true);true
 
-        new BaseServer();
+        try {
+            new BaseServer();
+            ComPortHandler.readPort("");
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
 
 
     }

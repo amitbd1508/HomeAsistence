@@ -25,11 +25,11 @@ public class ComPortHandler {
 
             @Override
             public void run() {
-                SerialPort serialPort = SerialPort.getCommPort(comPort);
+                SerialPort serialPort = SerialPort.getCommPort(getComPortsList()[0]);
                 if (serialPort == null) {
                     return;
                 }
-                serialPort.setBaudRate(115200);
+                serialPort.setBaudRate(9600);
                 serialPort.setComPortTimeouts(0, 0, 0);
                 if (serialPort.openPort()) {
                     try {
