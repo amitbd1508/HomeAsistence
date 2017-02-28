@@ -13,6 +13,7 @@ public class ComPortHandler {
         String[] ports = new String[len];
         for (int i = 0; i < len; ++i) {
             ports[i] = serialPorts[i].getSystemPortName();
+            System.out.print(ports[i]);
         }
         return ports;
     }
@@ -20,34 +21,39 @@ public class ComPortHandler {
         return SerialPort.getCommPort(deviceName);
     }
 
-    public static void readPort(final String comPort) {
+    public static void readPort(final String comPort) throws Throwable {
         Thread t = new Thread(){
 
             @Override
             public void run() {
-                SerialPort serialPort = SerialPort.getCommPort(getComPortsList()[0]);
-                if (serialPort == null) {
-                    return;
-                }
-                serialPort.setBaudRate(9600);
-                serialPort.setComPortTimeouts(0, 0, 0);
-                if (serialPort.openPort()) {
-                    try {
-                        do {
-                            byte[] bytes = new byte[serialPort.bytesAvailable()];
-                            serialPort.readBytes(bytes, bytes.length);
-                            String portData = new String(bytes);
-                            if (portData.trim().isEmpty()) continue;
-                            System.out.println(portData);
-                        } while (true);
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    ComPortHandler.sendToConsole("Port Closed");
-                }
-                serialPort.closePort();
+               try{
+                   SerialPort serialPort = SerialPort.getCommPort(getComPortsList()[1]);
+                   if (serialPort == null) {
+                       return;
+                   }
+                   serialPort.setBaudRate(9600);
+                   serialPort.setComPortTimeouts(0, 0, 0);
+                   if (serialPort.openPort()) {
+                       try {
+                           do {
+                               byte[] bytes = new byte[serialPort.bytesAvailable()];
+                               serialPort.readBytes(bytes, bytes.length);
+                               String portData = new String(bytes);
+                               if (portData.trim().isEmpty()) continue;
+                               System.out.println(portData);
+                           } while (true);
+                       }
+                       catch (Exception e) {
+                           e.printStackTrace();
+                       }
+                   } else {
+                       ComPortHandler.sendToConsole("Port Closed");
+                   }
+                   serialPort.closePort();
+               }
+               catch (Exception ex){
+                   System.out.println("Cannot read");
+               }
             }
         };
         t.start();

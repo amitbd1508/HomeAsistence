@@ -7,8 +7,6 @@ import org.webbitserver.WebSocketConnection;
 import org.webbitserver.WebSocketHandler;
 
 import java.io.DataOutputStream;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
@@ -50,6 +48,7 @@ public class BaseServer  implements WebSocketHandler {
     @Override
     public void onMessage(WebSocketConnection webSocketConnection, String s) throws Throwable {
 
+
         try{
             if (this.isFirstTime) {
                 this.xbox = SerialPort.getCommPort(this.init());
@@ -70,11 +69,13 @@ public class BaseServer  implements WebSocketHandler {
             }
             if (this.xbox.isOpen() && this.xboxOutputStream == null) {
                 // empty if block
+                System.out.print("XBOCX IS NULL \n");
             }
         }catch (Exception ex)
         {
             System.out.print("Cannot write Serial Port \n");
             ex.printStackTrace();
+
         }
 
 
@@ -95,10 +96,10 @@ public class BaseServer  implements WebSocketHandler {
     public void onPong(WebSocketConnection webSocketConnection, byte[] bytes) throws Throwable {
 
     }
-    public String init() {
-        SerialPort serialPort = SerialPort.getCommPorts()[0];
+    public String init() throws Throwable {
+        SerialPort serialPort = SerialPort.getCommPorts()[1];
         System.out.println("Found = " + serialPort.getSystemPortName());
-        return serialPort.getSystemPortName();
+        return "ttyACM0";
     }
 
     public void sendToConsole(String msg) {
